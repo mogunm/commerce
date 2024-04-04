@@ -1,0 +1,30 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+    <form action="{% url 'create' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="listingTitie" class="form-label">Title </label>
+            <input type="title" class="form-control" >
+        </div>
+        <div class="mb-3">
+            <label for="listingDescription" class="form-label">Description</label>
+            <textarea class="form-control" rows="3"></textarea>
+        </div> 
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input class="form-control" type="text" name="price">
+        </div>
+        <select class="form-select mb-3" data-bs-theme="dark" name="category">
+            <option selected>Category</option>
+            {% for cat in category %}
+                <option value="{{ cat }}"> {{ cat }}</option>
+            {% endfor %}
+        </select>
+        <div class="mb-3">
+            <label for="uploadImages" class="form-label">Upload Images</label>
+            <input class="form-control" type="file" multiple>
+        </div>
+        <button class="btn btn-outline-success" type="submit">Create</button>
+    </form>
+{% endblock %}
