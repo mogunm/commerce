@@ -1,30 +1,31 @@
 {% extends 'auctions/layout.html' %}
 
 {% block body %}
+    <h2 style="color: #B19F9E;">Create Listing</h2>
     <form action="{% url 'create' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="mb-3">
-            <label for="listingTitie" class="form-label">Title </label>
-            <input type="title" class="form-control" >
+            <label style="color: #B19F9E;" for="listingTitie" class="form-label">Title </label>
+            <input type="text" name="title" class="form-control" style="background-color: #FEFFFF;">
         </div>
         <div class="mb-3">
-            <label for="listingDescription" class="form-label">Description</label>
-            <textarea class="form-control" rows="3"></textarea>
+            <label style="color: #B19F9E;" for="listingDescription" class="form-label">Description</label>
+            <textarea class="form-control" name="description" rows="3" style="background-color: #FEFFFF;"></textarea>
         </div> 
         <div class="mb-3">
-            <label for="price" class="form-label">Price</label>
-            <input class="form-control" type="text" name="price">
+            <label style="color: #B19F9E;" for="price" class="form-label">Price</label>
+            <input class="form-control" type="text" name="price" style="background-color: #FEFFFF">
         </div>
-        <select class="form-select mb-3" data-bs-theme="dark" name="category">
+        <select class="form-select mb-3" data-bs-theme="dark" name="category" style="background-color: #FEFFFF;">
             <option selected>Category</option>
-            {% for cat in category %}
+            {% for cat in categories %}
                 <option value="{{ cat }}"> {{ cat }}</option>
             {% endfor %}
         </select>
         <div class="mb-3">
-            <label for="uploadImages" class="form-label">Upload Images</label>
-            <input class="form-control" type="file" multiple>
+            <label style="color: #B19F9E;" for="uploadImages" class="form-label">Upload Images</label>
+            <input class="form-control" type="file" multiple name="image" style="background-color: #FEFFFF;">
         </div>
-        <button class="btn btn-outline-success" type="submit">Create</button>
+        <button class="btn" type="submit" style="background-color: #B19F9E; color: #FEFFFF;">Create</button>
     </form>
 {% endblock %}

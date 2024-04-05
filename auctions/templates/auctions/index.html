@@ -1,7 +1,18 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
-
-    TODO
+        <h2 class="mb-3" style="color: #B19F9E;" >Active Listings</h2>
+        <div class="d-flex flex-wrap justify-content-around">
+        {% for listing in listings %}
+            <div class="card mb-3" style="width: 25rem;">
+                <img src="{{ listing.image_url.url }}" class="card-img-top" alt="..." style="background-color: #D8C3A5;">
+                <div class="card-body" style="background-color: #B19F9E;">
+                <h5 class="card-title" style="color: #FEFFFF;">{{ listing.title }}</h5>
+                <p class="card-text" style="color: #FEFFFF;">{{ listing.description }}</p>
+                <div class="card-text m-3" style="color: #FEFFFF;">Starting Price: {{ listing.price }}</div>
+                <button href="#" class="btn" style="background-color: #19181A; color: #FEFFFF">Check Listing</button>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
 {% endblock %}

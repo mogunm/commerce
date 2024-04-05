@@ -4,14 +4,50 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
+from .models import User, Listing, Category
 
 
 def index(request):
-    return render(request, "auctions/index.html")
+    # get the listings from the database
+    listings = Listing.objects.all()
+
+    return render(request, "auctions/index.html", {
+        "listings": listings
+    })
+
 
 def create(request):
-    return render(request, "auctions/create.html")
+     # get all of the categories
+    allCategories = Category.objects.all()
+
+    if request.method == "POST":
+
+        # get all of the field values to send to tge database 
+        title = request.POST["title"]
+        description = request.POST['description']
+        price = request.POST['price']
+        category = request.POST['category']
+        imageurl = request.FILES['image']
+
+        # get current user 
+        currentUser = request.user
+
+        # get the category data 
+        categoryData = Category.objects.get(category_name=category)
+
+        # send values to the database 
+        listing = Listing(title=title, description=description, price=float(price), category=categoryData, image_url=imageurl, user=currentUser)
+
+        # save the changes to database 
+        listing.save()
+
+        # redirect back to index 
+        return HttpResponseRedirect(reverse("index"))
+
+    # if the request method is GET 
+    return render(request, "auctions/create.html", {
+        "categories": allCategories
+    })
 
 
 def login_view(request):

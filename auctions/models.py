@@ -8,6 +8,9 @@ class User(AbstractUser):
 class Category(models.Model):
     category_name = models.CharField(max_length=64)
 
+    def __str__(self):
+        return self.category_name
+
 class Listing(models.Model):
     title = models.CharField(max_length=64)
     description = models.TextField()
@@ -19,4 +22,4 @@ class Listing(models.Model):
     is_active = models.BooleanField(default=True)
     
     def __str__(self):
-        return self.titles
+        return self.title
