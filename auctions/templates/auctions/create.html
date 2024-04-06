@@ -16,16 +16,16 @@
             <label style="color: #B19F9E;" for="price" class="form-label">Price</label>
             <input class="form-control" type="text" name="price" style="background-color: #FEFFFF">
         </div>
-        <select class="form-select mb-3" data-bs-theme="dark" name="category" style="background-color: #FEFFFF;">
+        <select class="form-select mb-3 rounded-pill" data-bs-theme="dark" name="category" style="background-color: #FEFFFF;">
             <option selected>Category</option>
             {% for cat in categories %}
                 <option value="{{ cat }}"> {{ cat }}</option>
             {% endfor %}
-        </select>
+        </select class="input-group">
         <div class="mb-3">
             <label style="color: #B19F9E;" for="uploadImages" class="form-label">Upload Images</label>
-            <input class="form-control" type="file" multiple name="image" style="background-color: #FEFFFF;">
+            <input class="form-control rounded-pill" type="file" name="image" style="background-color: #FEFFFF;">
         </div>
-        <button class="btn" type="submit" style="background-color: #B19F9E; color: #FEFFFF;">Create</button>
+        <button class="btn " type="submit" style="background-color: #B19F9E; color: #FEFFFF;">Create</button>
     </form>
 {% endblock %}

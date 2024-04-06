@@ -1,16 +1,28 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-        <h2 class="mb-3" style="color: #B19F9E;" >Active Listings</h2>
+        <h1 class="mb-3 text-center" style="color: #B19F9E; text-decoration: line-through;" >'The Vault'</h1>
+        <form action="{% url 'displayCat' %}" method="post" class="mb-3 text-center">
+            {% csrf_token %} 
+            <select class="form-select mb-3 " name="category" style="background-color: #FEFFFF; height: 30px;">
+                <option selected>Category</option>
+                {% for cat in categories %}
+                    <option value="{{ cat }}"> {{ cat }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn rounded-pill" style="background-color: #B19F9E; color: #FEFFFF; height: 35px"> Filter </button>
+        </form>
         <div class="d-flex flex-wrap justify-content-around">
         {% for listing in listings %}
-            <div class="card mb-3" style="width: 25rem;">
-                <img src="{{ listing.image_url.url }}" class="card-img-top" alt="..." style="background-color: #D8C3A5;">
+            <div class="card mb-3 text-center" style="width: 25rem;">
+                <img src="{{ listing.image_url.url }}" class="card-img-top" alt="...">
                 <div class="card-body" style="background-color: #B19F9E;">
                 <h5 class="card-title" style="color: #FEFFFF;">{{ listing.title }}</h5>
                 <p class="card-text" style="color: #FEFFFF;">{{ listing.description }}</p>
                 <div class="card-text m-3" style="color: #FEFFFF;">Starting Price: {{ listing.price }}</div>
-                <button href="#" class="btn" style="background-color: #19181A; color: #FEFFFF">Check Listing</button>
+                <button type="submit" class="btn" style="background-color: #19181A;">
+                    <a href="{% url 'listing' listing_id=listing.id %}" style="color: #FEFFFF; text-decoration: none;"> Check Listing </a>
+                </button>
                 </div>
             </div>
         {% endfor %}

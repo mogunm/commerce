@@ -3,16 +3,19 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from .models import User, Listing, Category
 
 
 def index(request):
-    # get the listings from the database
-    listings = Listing.objects.all()
+    # get all the active listings data from the database
+    activeListings = Listing.objects.filter(is_active=True)
+    allCategories = Category.objects.all()
 
     return render(request, "auctions/index.html", {
-        "listings": listings
+        "listings": activeListings,
+        "categories":  allCategories
     })
 
 
@@ -47,6 +50,31 @@ def create(request):
     # if the request method is GET 
     return render(request, "auctions/create.html", {
         "categories": allCategories
+    })
+
+def displayCategory(request):
+    if request.method == "POST":
+        # getting the category data from database 
+        formCat = request.POST['category']
+        category = Category.objects.get(category_name=formCat)
+
+        # get filter listing and all categories to display on page
+        liveListings = Listing.objects.filter(is_active=True, category=category)
+        allCategories = Category.objects.all()
+
+        return render(request, "auctions/index.html", {
+            "listings": liveListings,
+            "categories": allCategories
+        })
+
+
+@login_required(login_url='login')
+def listing(request, listing_id):
+    # get listing data from database 
+    listing = Listing.objects.get(id=listing_id)
+
+    return render(request, "auctions/listing.html", {
+        "listing": listing
     })
 
 
