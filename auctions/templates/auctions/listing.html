@@ -1,12 +1,43 @@
 {% extends 'auctions/layout.html' %}
 
 {% block body %}
-<<div class="col justify-content-start">
-    <div class="row mb-3" style="color: #feffff">
+<<div class="col">
+    <div class="row mb-2" style="color: #feffff">
       <h1>{{ listing.title }}</h1>
     </div>
-    <div class="row badge rounded-pill mb-3" style="background-color: #feffff;">
-        Watchlist
+    <div class="row badge rounded-pill mb-3 " style="background-color: #feffff;">
+        {% if user.is_authenticated %}
+            {% if inWatchlist %}
+                <form action="{% url 'removeWatchlist' listing_id=listing.id %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn" type="submit" style="background-color: #B19F9E; color: #feffff;">Remove from Watchlist </button>
+                </form>
+            {% else %}
+                <form action="{% url 'addWatchlist' listing_id=listing.id %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn" type="submit" style="background-color: #B19F9E; color: #feffff;">Add to  Watchlist </button>
+                </form>
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="row mb-3">
+        <img src="{{ listing.image_url.url }}" alt="{{ listing.title }}" style="width: 500px; height: 300px;">
+    </div>
+    <div class="row mb-3" style="color: #feffff;">
+        {{ listing.description }}
+    </div>
+    <div class="row mb-3" style="color: #feffff;">
+       <h3>${{ listing.price }}</h3> 
+    </div>
+    <div class="row mb-1" style="color: #feffff">
+        <h4>Details</h4>
+    </div>
+    <div class="row mb-3" style="color: #feffff;">
+        <ul>
+            <li> Listed By: {{ listing.user }}</li>
+            <li>Category: {{ listing.category }}</li>
+        </ul>
     </div>
   </div>
+
 {% endblock %}

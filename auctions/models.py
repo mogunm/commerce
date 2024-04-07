@@ -20,6 +20,8 @@ class Listing(models.Model):
     time_listed = models.DateTimeField(blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="user")
     is_active = models.BooleanField(default=True)
+    # a listing can be in multiple users watchlist 
+    watchlist = models.ManyToManyField(User, blank=True, null=True, related_name="watchlist")
     
     def __str__(self):
         return self.title

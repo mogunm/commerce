@@ -3,16 +3,16 @@
 {% block body %}
         <h1 class="mb-3 text-center" style="color: #B19F9E; text-decoration: line-through;" >'The Vault'</h1>
         <form action="{% url 'displayCat' %}" method="post" class="mb-3 text-center">
-            {% csrf_token %} 
-            <select class="form-select mb-3 " name="category" style="background-color: #FEFFFF; height: 30px;">
+            {% csrf_token %}
+            <select class="form-select mb-3 rounded-pill text-light" name="category" style="background-color: #2d2d2f; height: 30px;">
                 <option selected>Category</option>
                 {% for cat in categories %}
                     <option value="{{ cat }}"> {{ cat }}</option>
                 {% endfor %}
             </select>
-            <button type="submit" class="btn rounded-pill" style="background-color: #B19F9E; color: #FEFFFF; height: 35px"> Filter </button>
+            <button type="submit" class="btn rounded-pill" style="background-color: #B19F9E; color: #FEFFFF; height: 35px;"> Filter </button>
         </form>
-        <div class="d-flex flex-wrap justify-content-around">
+        <div class="d-flex flex-wrap justify-content-between">
         {% for listing in listings %}
             <div class="card mb-3 text-center" style="width: 25rem;">
                 <img src="{{ listing.image_url.url }}" class="card-img-top" alt="...">

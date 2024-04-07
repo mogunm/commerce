@@ -18,6 +18,31 @@ def index(request):
         "categories":  allCategories
     })
 
+def addWatchlist(request, listing_id):
+    # grab listing data from database 
+    listing = Listing.objects.get(id=listing_id)
+
+    # get user 
+    user = request.user 
+
+    # add this user to the watchlist of the listing 
+    listing.watchlist.add(user)
+
+    # redirect to the listing page 
+    return HttpResponseRedirect(reverse('listing', args=(listing_id, )))
+
+def removeWatchlist(request, listing_id):
+    # grab listing data from database 
+    listing = Listing.objects.get(id=listing_id)
+
+    # get user 
+    user = request.user 
+
+    # add this user to the watchlist of the listing 
+    listing.watchlist.remove(user)
+
+    # redirect to the listing page 
+    return HttpResponseRedirect(reverse('listing', args=(listing_id, )))
 
 def create(request):
      # get all of the categories
@@ -73,8 +98,12 @@ def listing(request, listing_id):
     # get listing data from database 
     listing = Listing.objects.get(id=listing_id)
 
+    # see if user is in the watchlist for the listing
+    inWatchlist = request.user in listing.watchlist.all()
+
     return render(request, "auctions/listing.html", {
-        "listing": listing
+        "listing": listing,
+        "inWatchlist": inWatchlist
     })
 
 
