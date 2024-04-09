@@ -1,24 +1,48 @@
 {% extends 'auctions/layout.html' %}
 
 {% block body %}
-<<div class="col">
-    <div class="row mb-2" style="color: #feffff">
-      <h1>{{ listing.title }}</h1>
-    </div>
-    <div class="row badge rounded-pill mb-3 " style="background-color: #feffff;">
-        {% if user.is_authenticated %}
-            {% if inWatchlist %}
-                <form action="{% url 'removeWatchlist' listing_id=listing.id %}" method="post">
-                    {% csrf_token %}
-                    <button class="btn" type="submit" style="background-color: #B19F9E; color: #feffff;">Remove from Watchlist </button>
-                </form>
-            {% else %}
-                <form action="{% url 'addWatchlist' listing_id=listing.id %}" method="post">
-                    {% csrf_token %}
-                    <button class="btn" type="submit" style="background-color: #B19F9E; color: #feffff;">Add to  Watchlist </button>
-                </form>
-            {% endif %}
+<div class="container">
+    {% if message  %}
+        {% if update %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
         {% endif %}
+    {% endif %}
+</div>
+{% if not listing.is_active and user == listing.price.user and user != listing.user %}
+    <div class="alert alert-success" role="alert">
+        Congratulations, You won the auction!
+    </div>
+{% endif %}
+<div clss="col">
+    <div class="row mb-2 justify-content-between" style="color: #feffff">
+        <h1>{{ listing.title }}</h1>
+        <div class="row mb-3">
+            {% if user.is_authenticated and listing.is_active %}
+                {% if isUser %}
+                <form action="{% url 'removeListing' listing_id=listing.id %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn rounded-pill mx-2" type="submit" style="background-color: #B19F9E; color: #feffff;">Close listing</button>
+                </form>
+                {% endif %}
+                {% if inWatchlist %}
+                    <form action="{% url 'removeWatchlist' listing_id=listing.id %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn rounded-pill" type="submit" style="background-color: #B19F9E; color: #feffff;">Remove from Watchlist </button>
+                    </form>
+                {% else %}
+                    <form action="{% url 'addWatchlist' listing_id=listing.id %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn rounded-pill" type="submit" style="background-color: #B19F9E; color: #feffff;">Add to  Watchlist </button>
+                    </form>
+                {% endif %}
+            {% endif %}
+        </div>
     </div>
     <div class="row mb-3">
         <img src="{{ listing.image_url.url }}" alt="{{ listing.title }}" style="width: 500px; height: 300px;">
@@ -27,8 +51,17 @@
         {{ listing.description }}
     </div>
     <div class="row mb-3" style="color: #feffff;">
-       <h3>${{ listing.price }}</h3> 
+       <h3>${{ listing.price.bid }}</h3> 
     </div>
+    {% if user.is_authenticated  %}
+        <form action="{% url 'addBid' listing_id=listing.id %}" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <input class="mb-2" type="number" min="0" name="bid" placeholder="Place Bid">
+                <button class="btn rounded-pill" type="submit" style="background-color: #B19F9E; color: #feffff;">Place Bid</button>
+            </div>
+        </form> 
+    {% endif %}
     <div class="row mb-1" style="color: #feffff">
         <h4>Details</h4>
     </div>
@@ -38,6 +71,34 @@
             <li>Category: {{ listing.category }}</li>
         </ul>
     </div>
-  </div>
+    <div>
+        <div >
+            <h2 style="color: #feffff;">Comment Section</h2>
+        </div>
+        <div >
+            <p style="color: #feffff;">Leave a comment for the listing creator.</p>
+        </div>
+        <div class="row-12">
+            <ul class="list-group">
+            {% for comment in comments %}
+                <li class="list-group-item mb-1" style="background-color: #B19F9E; color: #feffff;">
+                    {{ comment.message }}
+                    <br/>
+                    <p>Posted by: {{ comment.owner }} - {{ time }}</p>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+        {% if user.is_authenticated  %}
+            <form action="{% url 'addComment' listing_id=listing.id %}" method="post">
+                {% csrf_token %}
+                <div>
+                    <textarea class="form-control mb-2" type="text" name="comment" placeholder="New Comment"></textarea>
+                    <button class="btn rounded-pill" type="submit" style="background-color: #B19F9E; color: #feffff;">Add Comment</button>
+                </div>
+            </form> 
+        {% endif %}
+    </div>
+</div>
 
 {% endblock %}

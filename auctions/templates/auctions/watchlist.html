@@ -1,0 +1,19 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+    <h1 class="mb-3 text-center" style="color: #B19F9E; text-decoration: line-through;" >Watchlist</h1>
+    {% for listing in watchlistings %}
+    <div class="card mb-3 text-center" style="width: 25rem;">
+        <img src="{{ listing.image_url.url }}" class="card-img-top" alt="...">
+        <div class="card-body" style="background-color: #B19F9E;">
+        <h5 class="card-title" style="color: #FEFFFF;">{{ listing.title }}</h5>
+        <p class="card-text" style="color: #FEFFFF;">{{ listing.description }}</p>
+        <div class="card-text m-3" style="color: #FEFFFF;">Starting Price: {{ listing.price }}</div>
+        <button type="submit" class="btn" style="background-color: #19181A;">
+            <a href="{% url 'listing' listing_id=listing.id %}" style="color: #FEFFFF; text-decoration: none;"> Check Listing </a>
+        </button>
+        </div>
+    </div>
+    {% endfor %}
+
+{% endblock %}

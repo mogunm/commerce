@@ -19,7 +19,7 @@
                 <div class="card-body" style="background-color: #B19F9E;">
                 <h5 class="card-title" style="color: #FEFFFF;">{{ listing.title }}</h5>
                 <p class="card-text" style="color: #FEFFFF;">{{ listing.description }}</p>
-                <div class="card-text m-3" style="color: #FEFFFF;">Starting Price: {{ listing.price }}</div>
+                <div class="card-text m-3" style="color: #FEFFFF;">Starting Price: ${{ listing.price.bid }}</div>
                 <button type="submit" class="btn" style="background-color: #19181A;">
                     <a href="{% url 'listing' listing_id=listing.id %}" style="color: #FEFFFF; text-decoration: none;"> Check Listing </a>
                 </button>

@@ -1,7 +1,7 @@
 {% extends 'auctions/layout.html' %}
 
 {% block body %}
-    <h2 style="color: #B19F9E;">Create Listing</h2>
+    <h2 class="text-center" style="color: #B19F9E; text-decoration: line-through;">Create Listing</h2>
     <form action="{% url 'create' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="mb-3">
@@ -14,7 +14,7 @@
         </div> 
         <div class="mb-3">
             <label style="color: #B19F9E;" for="price" class="form-label">Price</label>
-            <input class="form-control" type="text" name="price" style="background-color: #FEFFFF">
+            <input class="form-control" min="0" type="number" name="price" style="background-color: #FEFFFF">
         </div>
         <select class="form-select mb-3 rounded-pill" data-bs-theme="dark" name="category" style="background-color: #FEFFFF;">
             <option selected>Category</option>
